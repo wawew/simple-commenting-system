@@ -1,32 +1,27 @@
-'use strict';
+"use strict";
 
-const express = require('express');
-const router = express.Router();
+import { Router } from "express";
+import { ProfileService } from "../services/profile.js";
+import { errorWrapper } from "./wrapper.js";
 
-const profiles = [
-  {
-    "id": 1,
-    "name": "A Martinez",
-    "description": "Adolph Larrue Martinez III.",
-    "mbti": "ISFJ",
-    "enneagram": "9w3",
-    "variant": "sp/so",
-    "tritype": 725,
-    "socionics": "SEE",
-    "sloan": "RCOEN",
-    "psyche": "FEVL",
-    "image": "https://soulverse.boo.world/images/1.png",
-  }
-];
+const router = Router();
+const profileService = new ProfileService();
 
-module.exports = function() {
+router.get(
+  "/:id",
+  errorWrapper(async (req, res, next) => {
+    const profileId = req.params.id;
+    const profile = await profileService.getProfile(profileId);
+    res.render("profile_template", { profile: profile });
+  }),
+);
 
-  router.get('/*', function(req, res, next) {
-    res.render('profile_template', {
-      profile: profiles[0],
-    });
-  });
+router.post(
+  "/profile/create",
+  errorWrapper(async (req, res, next) => {
+    const profileId = await profileService.createProfile(req.body);
+    res.status(201).json({ id: profileId });
+  }),
+);
 
-  return router;
-}
-
+export default router;
