@@ -1,5 +1,3 @@
-export class EntityNotFoundError extends Error {
-  constructor(message) {
-    super(message);
-  }
-}
+export class GenericError extends Error {}
+
+export class EntityNotFoundError extends GenericError {}

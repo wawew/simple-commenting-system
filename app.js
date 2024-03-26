@@ -2,7 +2,7 @@
 
 import express from "express";
 import profileRoute from "./routes/profile.js";
-import { EntityNotFoundError } from "./services/exception.js";
+import { EntityNotFoundError, GenericError } from "./services/exception.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,6 +22,13 @@ const errorMapper = new Map([
     {
       code: "ENTITY_NOT_FOUND_ERROR",
       status: 404,
+    },
+  ],
+  [
+    GenericError,
+    {
+      code: "GENERIC_ERROR",
+      status: 422,
     },
   ],
 ]);
