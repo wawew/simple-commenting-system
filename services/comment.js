@@ -42,7 +42,7 @@ export class CommentService {
   /**
    * @param {createCommentSpec} spec
    * @param {ProfileModel} createdBy
-   * @returns {null}
+   * @returns {String}
    */
   async createComment(spec, createdBy) {
     const mainProfile = await this.#getProfile(spec.profileId);
@@ -65,6 +65,8 @@ export class CommentService {
     }).catch((error) => {
       throw new GenericError(error.message);
     });
+
+    return comment.id;
   }
 
   /**
@@ -98,7 +100,7 @@ export class CommentService {
       .limit(spec.pagination.take);
 
     const mappedComments = comments.map((comment) => ({
-      id: comment._id,
+      id: comment.id,
       title: comment.title,
       description: comment.description,
       personalities: comment.personalities,

@@ -2,7 +2,10 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import mongoose from "mongoose";
 
 const mongoServer = await MongoMemoryServer.create({
-  instance: { port: 27017, dbName: "boo" },
+  instance: {
+    port: process.env.MONGODB_PORT,
+    dbName: process.env.MONGODB_DB_NAME,
+  },
 });
 
 class MongoMemoryConnection {

@@ -3,9 +3,11 @@
 import express from "express";
 import profileRoute from "./routes/profile.js";
 import { EntityNotFoundError, GenericError } from "./services/exception.js";
+import { configDotenv } from "dotenv";
 
 const app = express();
 const port = process.env.PORT || 3000;
+configDotenv();
 
 // set the view engine to ejs
 app.set("view engine", "ejs");
